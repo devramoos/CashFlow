@@ -2,16 +2,19 @@ package com.cashflow.cashflow.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
+@Setter
+@Getter
 @Entity
+@DiscriminatorValue("PF") // Valor para diferenciar Pessoa Física na tabela de usuários
 public class PessoaFisicaModel extends Usuario {
 
-
     @CPF
-    @Column(unique = true)
-    @NotBlank(message = "O nome é obrigatório")
+    @Column(unique = true, nullable = false, length = 11) // nullable = false para garantir que o CPF seja obrigatório
+    @NotBlank(message = "CPF não pode estar vazio")
     private String cpf;
 
     public PessoaFisicaModel(String cpf) {
@@ -19,11 +22,7 @@ public class PessoaFisicaModel extends Usuario {
 
     }
 
-    public String getCpf() {
-        return cpf;
+    public PessoaFisicaModel() {
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 }
